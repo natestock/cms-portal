@@ -2,25 +2,42 @@
     <div id="root-navigation">
         <b-navbar type="dark" variant="dark">
             <b-navbar-brand>CMS Portal</b-navbar-brand>
-            <b-nav-form>
-                <b-form-input class="mr-sm-2" placeholder="Search"></b-form-input>
-                <b-button variant="primary" class="my-2 my-sm-0" type="submit">Search</b-button>
-            </b-nav-form>
-            <b-navbar-nav class="ml-auto">
-                <b-nav-item-dropdown right>
-                    <!-- Using 'button-content' slot -->
-                    <template v-slot:button-content>
-                        <em>User</em>
-                    </template>
-                    <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-                </b-nav-item-dropdown>
-            </b-navbar-nav>
+            <b-breadcrumb id="breadcrumb-navigation" class="m-0 py-1 flex-fill bg-light"
+                :items="items"
+            ></b-breadcrumb>
         </b-navbar>
+        <router-view id="page-view" class="bg-light"></router-view>
     </div>
 </template>
+<script>
+export default {
+    computed: {
+        items: function() { // TODO edit routes/breadcrumb to be more dynamic
+            let items = [
+                {
+                    text: 'Jobs',
+                    to: { name: 'Jobs' }
+                }
+            ];
+            if (this.$route.params.jobNumber) {
+                items.push({
+                    text: this.$route.params.jobNumber,
+                    active: true
+                });
+            }
+            return items;
+        }
+    }
+}
+</script>
 <style scoped>
 #root-navigation {
+    height: 100%;
     overflow: visible;
+}
+#page-view {
+    margin-top: -56px;
+    padding-top: 56px;
+    height: 100%;
 }
 </style>
